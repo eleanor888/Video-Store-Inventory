@@ -1,0 +1,135 @@
+SET FOREIGN_KEY_CHECKS=0;
+DROP TABLE IF EXISTS customers;
+CREATE TABLE `customers` (
+    `customer_id` INT(10) NOT NULL,
+    `first_name` VARCHAR(50) NOT NULL,
+    `last_name` VARCHAR(50) NOT NULL,
+    `street` VARCHAR(100) NOT NULL,
+    `city` VARCHAR(100) NOT NULL,
+    `state` VARCHAR(100) NOT NULL,
+    `zip_code` INT(5) NOT NULL,
+    `phone_number` VARCHAR(20) NOT NULL,
+    `total_movies_rented` VARCHAR(100),
+    PRIMARY KEY (`customer_id`)
+);
+
+INSERT INTO customers (customer_id, first_name, last_name, street, city, state, zip_code, phone_number, total_movies_rented)
+VALUES (14957890, 'Mary', 'Collins','948 Park Street','Bethesda','MD',20194,'402-238-1149', 39); 
+INSERT INTO customers (customer_id, first_name, last_name, street, city, state, zip_code, phone_number, total_movies_rented)
+VALUES (77567890, 'Erin', 'Banks','4900 Willow Ave','Baltimore','MD',21304,'301-928-3345', 20);
+INSERT INTO customers (customer_id, first_name, last_name, street, city, state, zip_code, phone_number, total_movies_rented)
+VALUES (34665780, 'Joe', 'Griffin','5 Lang Street','Laurel','MD',24432,'410-298-1039', 16); 
+INSERT INTO customers (customer_id, first_name, last_name, street, city, state, zip_code, phone_number, total_movies_rented)
+VALUES (48909389, 'Mike', 'Stephens','47 Charles Street','Baltimore','MD',21903,'443-938-7638', 8);  
+INSERT INTO customers (customer_id, first_name, last_name, street, city, state, zip_code, phone_number, total_movies_rented)
+VALUES (78367899, 'Ben', 'Johnson','8790 Severn Circle','Columbia','MD',24023,'410-108-6563', 12); 
+
+SELECT * FROM customers;
+ 
+DROP TABLE IF EXISTS movies;
+  CREATE TABLE `movies` (
+    `movie_id` INT(10) NOT NULL,
+    `distributor_id` INT(10) NOT NULL,
+    `title` VARCHAR(100),
+    `genre` VARCHAR(50),
+    `rating` INT(1),
+    `year_released` INT(4),
+    `director` VARCHAR(20),
+    `actors` VARCHAR(100),
+    `actresses` VARCHAR(100),
+    `academy_awards` VARCHAR(10),
+    `running_length` VARCHAR(100),
+    `type` VARCHAR(5),
+    PRIMARY KEY (`movie_id`)
+);
+
+INSERT INTO movies (movie_id, distributor_id, title, genre, rating, year_released, director, actors, actresses, academy_awards, running_length, type)
+VALUES (345194738, 837462718, 'Avengers','Action', 9.7, 2012, 'Joss Whedon', 'Robert Downey Jr, Chris Evans', 'Scarlett Johanson', 2, 143, 'DVD' ); 
+INSERT INTO movies (movie_id, distributor_id, title, genre, rating, year_released, director, actors, actresses, academy_awards, running_length, type)
+VALUES (928293822, 984829439, 'Forrest Gump','Drama', 9.5, 1994, 'Robert Zemeckis', 'Tom Hanks', 'Robin Wright', 6, 142, 'VHS' ); 
+INSERT INTO movies (movie_id, distributor_id, title, genre, rating, year_released, director, actors, actresses, academy_awards, running_length, type)
+VALUES (184938274, 947362732, 'Inception', 'Sci-Fi', 8, 2010, 'Christopher Nolan', 'Leonardo DiCaprio, Joseph Gordon-Levitt', 'Ellen Page', 0, 148, 'DVD' ); 
+INSERT INTO movies (movie_id, distributor_id, title, genre, rating, year_released, director, actors, actresses, academy_awards, running_length, type)
+VALUES (577382718, 277284611, 'Casablanca','Romance', 8.5, 1942, 'Michael Curtiz', 'Humphrey Bogart', 'Ingrid Bergman', 1, 102, 'VHS' ); 
+INSERT INTO movies (movie_id, distributor_id, title, genre, rating, year_released, director, actors, actresses, academy_awards, running_length, type)
+VALUES (227385626, 837562773, 'Spirited Away','Animation', 8.6, 2001, 'Hayao Miyazaki', 'Daveigh Chase', 'Suzanne Pleshette', 3, 129, 'DVD' ); 
+
+SELECT * FROM movies;
+
+DROP TABLE IF EXISTS rentals;
+   CREATE TABLE `rentals` (
+    `customer_id` INT(10) NOT NULL,
+    `movie_id` INT(10) NOT NULL,
+    `title` VARCHAR (50) NOT NULL,
+    `type` VARCHAR(50) NOT NULL,
+    `date_rented` VARCHAR(100) NOT NULL,
+    `date_returned` VARCHAR(100) NOT NULL,
+    `total_charge` NUMERIC(50 , 2 ) NOT NULL,
+    FOREIGN KEY (`customer_id`)
+        REFERENCES `customers` (`customer_id`)  ON DELETE CASCADE
+       ON UPDATE CASCADE,
+	FOREIGN KEY (`movie_id`)
+        REFERENCES `movies` (`movie_id`)  ON DELETE CASCADE
+       ON UPDATE CASCADE
+);
+
+INSERT INTO rentals (customer_id, movie_id, title, type, date_rented, date_returned, total_charge)
+VALUES (12948728,47822938, 'Rear Window','DVD', timestamp('2015-6-15'), timestamp('2015-6-17'), 7.50); 
+INSERT INTO rentals (customer_id, movie_id, title, type, date_rented, date_returned, total_charge)
+VALUES (48492821,53887563, 'The Land Before Time','VHS', timestamp('2015-4-3'), timestamp('2015-4-19'), 6.25); 
+INSERT INTO rentals (customer_id, movie_id, title, type, date_rented, date_returned, total_charge)
+VALUES (37228476,49483322, 'Mean Girls','DVD', timestamp('2015-2-28'), timestamp('2015-3-10'), 8.00); 
+INSERT INTO rentals (customer_id, movie_id, title, type, date_rented, date_returned, total_charge)
+VALUES (78573983,93880998, 'Gone With the Wind','DVD', timestamp('2015-6-23'), timestamp('2015-6-28'), 10.50); 
+INSERT INTO rentals (customer_id, movie_id, title, type, date_rented, date_returned, total_charge)
+VALUES (94826777,74833838, 'The Sound of Music', 'VHS', timestamp('2015-6-1'), timestamp('2015-6-8'), 6.25); 
+SELECT * FROM rentals;
+
+DROP TABLE IF EXISTS distributor;
+CREATE TABLE `distributor` (
+    `distributor_name` VARCHAR(50) NOT NULL,
+    `street` VARCHAR(100) NOT NULL,
+    `city` VARCHAR(100) NOT NULL,
+    `state` VARCHAR(100) NOT NULL,
+    `zip_code` VARCHAR(100) NOT NULL,
+    `phone_number` VARCHAR(20) NOT NULL,
+    PRIMARY KEY (`distributor_name`)
+);
+
+INSERT INTO distributor (distributor_name, street, city, state, zip_code, phone_number)
+VALUES ('Classic Pictures Inc.', '4029 Sunset Road', 'Los Angeles','CA',30593, '301-829-3327'); 
+INSERT INTO distributor (distributor_name, street, city, state, zip_code, phone_number)
+VALUES ('Saga Films Inc.', '28 Green Road', 'Chicago','IL',92839, '912-338-4372'); 
+INSERT INTO distributor (distributor_name, street, city, state, zip_code, phone_number)
+VALUES ('Foreign Cinema Arts Inc.', '2 Everly Blvd', 'Medford','NJ',40593, '205-264-3812'); 
+INSERT INTO distributor (distributor_name, street, city, state, zip_code, phone_number)
+VALUES ('Hallmark Productions', '87 Howard Street', 'Washington','DC',20013, '210-948-5373'); 
+INSERT INTO distributor (distributor_name, street, city, state, zip_code, phone_number)
+VALUES ('Juno Films Inc.', '998 Ethan Road', 'Orlando','FL',20193, '560-067-8437'); 
+
+SELECT * FROM distributor;
+
+DROP TABLE IF EXISTS sales;
+   CREATE TABLE `sales` (
+    `distributor_name` VARCHAR(50) NOT NULL,
+    `movie_id` INT(10) NOT NULL,
+    `type` VARCHAR(50) NOT NULL,
+    `price`NUMERIC(50 , 2 ) NOT NULL,
+    FOREIGN KEY (`distributor_name`)
+        REFERENCES `distributor` (`distributor_name`),
+	FOREIGN KEY (`movie_id`)
+        REFERENCES `movies` (`movie_id`)
+);
+
+INSERT INTO sales (distributor_name, movie_id, type, price)
+VALUES ('Juno Films Inc.', 183957343, 'DVD', 12.50); 
+INSERT INTO sales (distributor_name, movie_id, type, price)
+VALUES ('Liberty Films.', 994857322, 'DVD', 11.00); 
+INSERT INTO sales (distributor_name, movie_id, type, price)
+VALUES ('Palm Pictures', 232278314, 'VHS', 8.50); 
+INSERT INTO sales (distributor_name, movie_id, type, price)
+VALUES ('Sony Pictures', 556483672, 'DVD', 13.00); 
+INSERT INTO sales (distributor_name, movie_id, type, price)
+VALUES ('Sunset Film', 775847384, 'VHS', 7.75); 
+
+SELECT * FROM sales;
